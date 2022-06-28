@@ -1,18 +1,11 @@
 # walletconnect-test-wallet
 
-Test Wallet (Web)
+WalletConenct [test web wallet](https://diamondverse.github.io/walletconnect-test-wallet)
+slightly modified for The Diamondverse.
 
-## Setup INFURA project id
+# For developers
 
-An INFURA project id is required to run this project. [Signup for a free INFURA project id here](https://infura.io/product/ethereum).
-
-Once you have the project id, setup the environment variable in file `.env.local` as follow.
-
-```
-REACT_APP_INFURA_PROJECT_ID=<your infura project id>
-```
-
-## Develop
+## Run a local website
 
 ```bash
 npm run start

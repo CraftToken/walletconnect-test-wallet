@@ -3,8 +3,9 @@ import styled from "styled-components";
 import Dropdown from "../components/Dropdown";
 import { IChainData } from "../helpers/types";
 import { ellipseAddress, getViewportDimensions } from "../helpers/utilities";
-import { responsive } from "../styles";
+import { colors, responsive } from "../styles";
 import Blockie from "./Blockie";
+import Button from "./Button";
 
 const SSection = styled.div`
   width: 100%;
@@ -24,6 +25,16 @@ const SAddressDropdownWrapper = styled.div`
   align-items: center;
 `;
 
+const SAddressButton = styled(Button)`
+  width: 90%;
+  height: 40px;
+  padding: 0;
+  background-color: rgb(${colors.white});
+  color: rgb(${colors.black});
+  font-family: monospace;
+  font-weight: normal;
+`;
+
 interface IAccountDetailsProps {
   chains: IChainData[];
   updateAddress?: any;
@@ -35,7 +46,7 @@ interface IAccountDetailsProps {
 }
 
 const AccountDetails = (props: IAccountDetailsProps) => {
-  const { chains, chainId, address, activeIndex, accounts, updateAddress, updateChain } = props;
+  const { chains, chainId, address, activeIndex, accounts, updateChain } = props;
   const windowWidth = getViewportDimensions().x;
   const maxWidth = 468;
   const maxChar = 12;
@@ -45,20 +56,38 @@ const AccountDetails = (props: IAccountDetailsProps) => {
     index,
     display_address: ellipseAddress(addr, ellipseLength),
   }));
+  const copyAddressToClipboard = () => {
+    navigator.clipboard.writeText(address);
+  };
   return (
     <React.Fragment>
       <SSection>
         <h6>{"Account"}</h6>
         <SAddressDropdownWrapper>
           <SBlockie size={40} address={address} />
-          <Dropdown
-            monospace
-            selected={activeIndex}
-            options={accountsMap}
-            displayKey={"display_address"}
-            targetKey={"index"}
-            onChange={updateAddress}
-          />
+          <SAddressButton onClick={copyAddressToClipboard}>
+            <>
+              <svg
+                style={{
+                  float: "right",
+                  marginTop: "calc((16px - 20px) / 2)",
+                  marginRight: "10px",
+                }}
+                stroke="currentColor"
+                fill="currentColor"
+                strokeWidth="0"
+                viewBox="0 0 24 24"
+                height="20px"
+                width="20px"
+              >
+                <path
+                  d="M16,1 H4 c-1.1,0,-2,.9,-2,2 v14 h2 V3 h12 V1 z m3,4 H8 c-1.1,0,-2,.9,-2,2 v14
+                 c0,1.1,.9,2,2,2 h11 c1.1,0,2,-.9,2,-2 V7 c0,-1.1,-.9,-2,-2,-2 z m0,16 H8 V7 h11 v14 z"
+                />
+              </svg>
+              {accountsMap[activeIndex].display_address}
+            </>
+          </SAddressButton>
         </SAddressDropdownWrapper>
       </SSection>
       <SSection>

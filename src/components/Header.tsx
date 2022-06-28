@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Blockie from "./Blockie";
 import { ellipseAddress, getChainData } from "../helpers/utilities";
 import { fonts, responsive, transitions } from "../styles";
+import Button from "./Button";
 
 const SHeader = styled.div`
   margin-top: -1px;
@@ -38,6 +39,11 @@ const SActiveChain = styled(SActiveAccount as any)`
   & p:nth-child(2) {
     font-weight: bold;
   }
+`;
+
+const SGetCryptoButton = styled(Button)`
+  margin-right: 7px;
+  margin-left: 3px;
 `;
 
 interface IHeaderStyle {
@@ -83,14 +89,30 @@ interface IHeaderProps {
 
 const Header = (props: IHeaderProps) => {
   const { connected, address, chainId, killSession } = props;
-  const activeChain = chainId ? getChainData(chainId).name : null;
+  const activeChain = chainId ? getChainData(chainId) : null;
+  const getNativeCurrency = () => {
+    if (activeChain?.faucet_url !== undefined) {
+      window.open(activeChain.faucet_url, "_blank");
+    } else {
+      alert("Not implemented");
+    }
+  };
+  const getCraft = () => {
+    alert("Not implemented");
+  };
   return (
     <SHeader {...props}>
       {activeChain && (
-        <SActiveChain>
-          <p>{`Connected to`}</p>
-          <p>{activeChain}</p>
-        </SActiveChain>
+        <>
+          <SActiveChain>
+            <p>{`Connected to`}</p>
+            <p>{activeChain.name}</p>
+          </SActiveChain>
+          <SGetCryptoButton onClick={getNativeCurrency}>
+            {`Get ${activeChain.native_currency.symbol}`}
+          </SGetCryptoButton>
+          <SGetCryptoButton onClick={getCraft}>{`Get CRAFT`}</SGetCryptoButton>
+        </>
       )}
       {address && (
         <SActiveAccount>

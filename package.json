@@ -9,21 +9,27 @@
     "crypto"
   ],
   "author": "WalletConnect, Inc. <walletconnect.com>",
-  "homepage": "https://walletconnect.org",
+  "homepage": "https://diamondverse.github.io/walletconnect-test-wallet",
   "license": "MIT",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "lint": "eslint -c './.eslintrc' --fix './src/**/*{.ts,.tsx}'"
+    "lint": "lint-staged",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/walletconnect/walletconnect-test-wallet.git"
+    "url": "git+https://github.com/Diamondverse/walletconnect-test-wallet.git"
   },
   "bugs": {
-    "url": "https://github.com/walletconnect/walletconnect-test-wallet/issues"
+    "url": "https://github.com/Diamondverse/walletconnect-test-wallet/issues"
   },
   "dependencies": {
     "@walletconnect/client": "^1.7.8",
@@ -34,6 +40,7 @@
     "bn.js": "^5.1.3",
     "eth-sig-util": "^2.5.3",
     "ethers": "^5.0.17",
+    "gh-pages": "^4.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -59,6 +66,8 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.1",
     "prettier": "^1.19.1",
     "typescript": "^3.9.7"
   },

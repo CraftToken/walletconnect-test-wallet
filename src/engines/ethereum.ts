@@ -2,7 +2,7 @@ import { signingMethods, convertHexToNumber } from "@walletconnect/utils";
 
 import { IAppState } from "../App";
 import { apiGetCustomRequest } from "../helpers/api";
-import { convertHexToUtf8IfPossible } from "../helpers/utilities";
+import { convertHexToUtf8IfPossible, methodToName } from "../helpers/utilities";
 import { IRequestRenderParams, IRpcEngine } from "../helpers/types";
 import { getAppControllers } from "../controllers";
 
@@ -42,17 +42,17 @@ export async function routeEthereumRequests(payload: any, state: IAppState, setS
 }
 
 export function renderEthereumRequests(payload: any): IRequestRenderParams[] {
-  let params = [{ label: "Method", value: payload.method }];
+  let params = [{ label: "Action", value: methodToName(payload.method) }];
 
   switch (payload.method) {
     case "eth_sendTransaction":
     case "eth_signTransaction":
       params = [
         ...params,
-        { label: "From", value: payload.params[0].from },
-        { label: "To", value: payload.params[0].to },
+        { label: "Sender", value: payload.params[0].from },
+        { label: "Receiver", value: payload.params[0].to },
         {
-          label: "Gas Limit",
+          label: "Gas limit",
           value: payload.params[0].gas
             ? convertHexToNumber(payload.params[0].gas)
             : payload.params[0].gasLimit
@@ -60,7 +60,7 @@ export function renderEthereumRequests(payload: any): IRequestRenderParams[] {
             : "",
         },
         {
-          label: "Gas Price",
+          label: "Gas price",
           value: convertHexToNumber(payload.params[0].gasPrice),
         },
         {
@@ -68,7 +68,7 @@ export function renderEthereumRequests(payload: any): IRequestRenderParams[] {
           value: convertHexToNumber(payload.params[0].nonce),
         },
         {
-          label: "Value",
+          label: "MATIC transfer amount",
           value: payload.params[0].value ? convertHexToNumber(payload.params[0].value) : "",
         },
         { label: "Data", value: payload.params[0].data },
@@ -79,7 +79,7 @@ export function renderEthereumRequests(payload: any): IRequestRenderParams[] {
       params = [
         ...params,
         { label: "Address", value: payload.params[0] },
-        { label: "Message", value: payload.params[1] },
+        { label: "Data to sign", value: payload.params[1] },
       ];
       break;
     case "personal_sign":
@@ -87,7 +87,7 @@ export function renderEthereumRequests(payload: any): IRequestRenderParams[] {
         ...params,
         { label: "Address", value: payload.params[1] },
         {
-          label: "Message",
+          label: "Data to sign",
           value: convertHexToUtf8IfPossible(payload.params[0]),
         },
       ];
@@ -96,7 +96,7 @@ export function renderEthereumRequests(payload: any): IRequestRenderParams[] {
       params = [
         ...params,
         {
-          label: "params",
+          label: "Parameters",
           value: JSON.stringify(payload.params, null, "\t"),
         },
       ];

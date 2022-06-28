@@ -111,22 +111,10 @@ export function getChainData(chainId: number): IChainData {
     throw new Error("ChainId missing or not supported");
   }
 
-  const API_KEY = process.env.REACT_APP_INFURA_PROJECT_ID;
-
-  if (!API_KEY) {
-    throw new Error("Environment variable REACT_APP_INFURA_PROJECT_ID is not set");
-  }
-
-  if (
-    chainData.rpc_url.includes("infura.io") &&
-    chainData.rpc_url.includes("%API_KEY%") &&
-    API_KEY
-  ) {
-    const rpcUrl = chainData.rpc_url.replace("%API_KEY%", API_KEY);
-
+  if (chainData.rpc_url.includes("infura.io") && chainData.rpc_url.includes("%API_KEY%")) {
     return {
       ...chainData,
-      rpc_url: rpcUrl,
+      rpc_url: chainData.rpc_url,
     };
   }
 
@@ -209,4 +197,21 @@ export function getCachedSession(): any {
     }
   }
   return session;
+}
+
+export function methodToName(method: string): string {
+  switch (method) {
+    case "eth_sendTransaction":
+      return "Send transaction";
+    case "eth_signTransaction":
+      return "Sign transaction";
+    case "eth_sign":
+      return "Sign";
+    case "personal_sign":
+      return "Sign";
+    case "eth_signTypedData":
+      return "Sign";
+    default:
+      return `Unknown (${method})`;
+  }
 }

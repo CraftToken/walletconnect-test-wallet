@@ -12,7 +12,7 @@ import RequestButton from "./components/RequestButton";
 import AccountDetails from "./components/AccountDetails";
 import QRCodeScanner, { IQRCodeValidateResponse } from "./components/QRCodeScanner";
 import { DEFAULT_CHAIN_ID, DEFAULT_ACTIVE_INDEX } from "./constants/default";
-import { getCachedSession } from "./helpers/utilities";
+import { getCachedSession, methodToName } from "./helpers/utilities";
 import { getAppControllers } from "./controllers";
 import { getAppConfig } from "./config";
 
@@ -78,12 +78,12 @@ const SActionsColumn = styled(SActions as any)`
 `;
 
 const SButton = styled(Button)`
-  width: 50%;
+  width: 40%;
   height: 40px;
 `;
 
 const SInput = styled(Input)`
-  width: 50%;
+  width: 60%;
   margin: 10px;
   font-size: 14px;
   height: 40px;
@@ -488,7 +488,7 @@ class App extends React.Component<{}> {
                   <Column>
                     <PeerMeta peerMeta={peerMeta} />
                     <SActions>
-                      <Button onClick={this.approveSession}>{`Approve`}</Button>
+                      <Button onClick={this.approveSession}>{`Connect`}</Button>
                       <Button onClick={this.rejectSession}>{`Reject`}</Button>
                     </SActions>
                   </Column>
@@ -534,16 +534,16 @@ class App extends React.Component<{}> {
                       </SConnectedPeer>
                     </>
                   )}
-                  <h6>{"Pending Call Requests"}</h6>
+                  <h6>{"Incoming requests:"}</h6>
                   {requests.length ? (
                     requests.map(request => (
                       <SRequestButton key={request.id} onClick={() => this.openRequest(request)}>
-                        <div>{request.method}</div>
+                        <div>{methodToName(request.method)}</div>
                       </SRequestButton>
                     ))
                   ) : (
                     <div>
-                      <div>{"No pending requests"}</div>
+                      <div>{"No requests"}</div>
                     </div>
                   )}
                 </Column>
@@ -568,7 +568,7 @@ class App extends React.Component<{}> {
           )}
         </SContainer>
         {getAppConfig().styleOpts.showVersion && (
-          <SVersionNumber>{`v${process.env.REACT_APP_VERSION}`} </SVersionNumber>
+          <SVersionNumber>{`v${process.env.REACT_APP_VERSION ?? "LOCAL"}`} </SVersionNumber>
         )}
       </React.Fragment>
     );
