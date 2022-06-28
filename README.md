@@ -1,6 +1,6 @@
 # walletconnect-test-wallet
 
-WalletConenct [test web wallet](https://diamondverse.github.io/walletconnect-test-wallet)
+WalletConenct [test web wallet](https://test-wallet.craftcoin.tech)
 slightly modified for The Diamondverse.
 
 # For developers

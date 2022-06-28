@@ -9,7 +9,7 @@
     "crypto"
   ],
   "author": "WalletConnect, Inc. <walletconnect.com>",
-  "homepage": "https://diamondverse.github.io/walletconnect-test-wallet",
+  "homepage": "https://test-wallet.craftcoin.tech",
   "license": "MIT",
   "scripts": {
     "start": "react-scripts-ts start",
